@@ -1,7 +1,6 @@
 package com.zipcodewilmington.phonebook;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by leon on 1/23/18.
@@ -9,22 +8,26 @@ import java.util.Map;
 public class PhoneBook {
 
     Map<String, List<String>> phoneBook;
+    List<String> phoneNumbers;
 
     public PhoneBook(Map<String, List<String>> map) {
-        this.phoneBook = map;
+        this.phoneBook = new HashMap<>(map.size());
+        this.phoneBook.putAll(map);
     }
 
     public PhoneBook() {
-        this(null);
+        this.phoneBook = new HashMap<>();
+        this.phoneNumbers = new ArrayList<>();
     }
 
     public void add(String name, String phoneNumber) {
-        this.phoneBook.get(name).add(phoneNumber);
+        this.phoneNumbers.add(phoneNumber);
+        this.phoneBook.put(name, this.phoneNumbers);
     }
 
     public void addAll(String name, String... phoneNumbers) {
         for (int i = 0; i < phoneNumbers.length; i++) {
-            this.phoneBook.get(name).add(phoneNumbers[i]);
+            this.phoneBook.put(name, Arrays.asList(phoneNumbers));
         }
     }
 
@@ -33,7 +36,16 @@ public class PhoneBook {
     }
 
     public Boolean hasEntry(String name) {
-        return this.phoneBook.containsKey(name);
+        if(this.phoneBook.containsKey(name)){
+            return true;
+        }
+        if(this.phoneBook.values().contains(name)){
+            return true;
+        }
+        if(this.phoneNumbers.contains(name)){
+            return true;
+        }
+        return false;
     }
 
     public List<String> lookup(String name) {
@@ -41,14 +53,21 @@ public class PhoneBook {
     }
 
     public String reverseLookup(String phoneNumber)  {
-        return null;
+        String returnString = "";
+        Set<Map.Entry<String, List<String>>> setPhonebook = this.phoneBook.entrySet();
+        for(Map.Entry<String, List<String>> i : setPhonebook){
+            if(i.getValue().contains(phoneNumber))
+                returnString = i.getKey();
+        }
+        return returnString;
     }
 
     public List<String> getAllContactNames() {
-        return null;
+        List<String> returnNameList = new ArrayList<>(this.phoneBook.keySet());
+        return returnNameList;
     }
 
     public Map<String, List<String>> getMap() {
-        return null;
+        return this.phoneBook;
     }
 }
