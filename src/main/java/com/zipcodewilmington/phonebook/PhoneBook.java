@@ -11,12 +11,12 @@ public class PhoneBook {
     List<String> phoneNumbers;
 
     public PhoneBook(Map<String, List<String>> map) {
-        this.phoneBook = new HashMap<>(map.size());
+        this.phoneBook = new LinkedHashMap<>(map.size());
         this.phoneBook.putAll(map);
     }
 
     public PhoneBook() {
-        this.phoneBook = new HashMap<>();
+        this.phoneBook = new LinkedHashMap<>();
         this.phoneNumbers = new ArrayList<>();
     }
 
@@ -63,7 +63,9 @@ public class PhoneBook {
     }
 
     public List<String> getAllContactNames() {
-        List<String> returnNameList = new ArrayList<>(this.phoneBook.keySet());
+        Set<String> setPhonebook = this.phoneBook.keySet();
+        List<String> returnNameList = Arrays.asList(setPhonebook.toArray(new String[0]));
+
         return returnNameList;
     }
 
