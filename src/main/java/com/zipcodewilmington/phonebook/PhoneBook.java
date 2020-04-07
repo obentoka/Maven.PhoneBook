@@ -39,9 +39,6 @@ public class PhoneBook {
         if(this.phoneBook.containsKey(name)){
             return true;
         }
-        if(this.phoneBook.values().contains(name)){
-            return true;
-        }
         if(this.phoneNumbers.contains(name)){
             return true;
         }
